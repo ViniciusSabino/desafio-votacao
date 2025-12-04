@@ -1,0 +1,88 @@
+### Maven ###
+target/
+!.mvn/wrapper/maven-wrapper.jar
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.properties
+
+### Gradle ###
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+
+### IDEs ###
+# IntelliJ / JetBrains
+*.iml
+.idea/
+out/
+
+# Eclipse
+.project
+.classpath
+.factorypath
+.settings/
+.bin/
+
+# VS Code
+.vscode/
+
+### Java ###
+*.class
+*.log
+*.ctxt
+
+### Spring Boot ###
+# Arquivos gerados
+spring.log
+
+### Sistema operacional ###
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+### Logs ###
+*.log
+logs/
+*.out
+
+### Arquivos temporários ###
+*.tmp
+*.temp
+*.swp
+*.swo
+
+### Banco de dados local (H2 file mode) ###
+*.mv.db
+*.h2.db
+
+### Testes ###
+# Relatórios e cache de test runners
+test-output/
+surefire-reports/
+failures/
+reports/
+
+### Docker ###
+# Ignorar imagens e artefatos grandes
+docker-data/
+
+### Segurança ###
+# Ignore qualquer .env
+*.env
+.env.*
+.env
+
+### Outros ###
+# Arquivos gerados automaticamente
+*.war
+*.jar
+*.ear
+
+# Arquivos de ferramentas locais
+*.orig
+*.rej
