@@ -1,9 +1,8 @@
 package com.desafiovotacao.application.service;
 
 import com.desafiovotacao.application.dto.TopicCreateDTO;
-import com.desafiovotacao.domain.model.Topic;
+import com.desafiovotacao.application.response.TopicResponse;
 
 public interface TopicService {
-
-    Topic create(TopicCreateDTO topicCreateDTO);
+    TopicResponse create(TopicCreateDTO topicCreateDTO);
 }

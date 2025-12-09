@@ -1,6 +1,7 @@
 package com.desafiovotacao.application.service.impl;
 
 import com.desafiovotacao.application.dto.TopicCreateDTO;
+import com.desafiovotacao.application.response.TopicResponse;
 import com.desafiovotacao.application.service.TopicService;
 import com.desafiovotacao.domain.exception.BusinessException;
 import com.desafiovotacao.domain.model.Topic;
@@ -19,17 +20,24 @@ public class TopicServiceImpl implements TopicService {
     private final TopicRepository repository;
 
     @Override
-    public Topic create(TopicCreateDTO topicCreateDTO) {
+    public TopicResponse create(TopicCreateDTO topicCreateDTO) {
         Topic existingTopic = repository.findByTitle(topicCreateDTO.title());
 
-        if(!Objects.isNull(existingTopic)) {
-            throw new BusinessException("A topic has already been created with the title: " + topicCreateDTO.title());
+        if (!Objects.isNull(existingTopic)) {
+            throw new BusinessException("Já possui uma pauta com o título: " + topicCreateDTO.title());
         }
 
-        Topic topic = repository.save(new Topic(topicCreateDTO));
+        Topic topic = repository.save(new Topic(topicCreateDTO.title(), topicCreateDTO.description(), topicCreateDTO.createdBy()));
 
-        log.info("Topic created successfully, id: {}", topic.getId());
+        log.info("Pauta criada com sucesso, id: {}", topic.getId());
 
-        return topic;
+        return TopicResponse.builder()
+                .id(topic.getId())
+                .title(topic.getTitle())
+                .description(topic.getDescription())
+                .createdBy(topic.getCreatedBy())
+                .createdAt(topic.getCreatedAt())
+                .updatedAt(topic.getUpdatedAt())
+                .build();
     }
 }

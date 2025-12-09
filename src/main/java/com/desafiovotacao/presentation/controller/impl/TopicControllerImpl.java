@@ -1,10 +1,9 @@
 package com.desafiovotacao.presentation.controller.impl;
 
 import com.desafiovotacao.application.dto.TopicCreateDTO;
-import com.desafiovotacao.application.dto.TopicDTO;
+import com.desafiovotacao.application.response.TopicResponse;
 import com.desafiovotacao.application.service.TopicService;
 import com.desafiovotacao.domain.exception.BusinessException;
-import com.desafiovotacao.domain.model.Topic;
 import com.desafiovotacao.presentation.controller.TopicController;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -27,11 +26,11 @@ public class TopicControllerImpl implements TopicController {
 
     @PostMapping
     @Override
-    public ResponseEntity<TopicDTO> create(@Valid @RequestBody TopicCreateDTO topicCreateDTO) throws BusinessException {
-        log.trace("POST /topic - Creating a new voting topic");
+    public ResponseEntity<TopicResponse> create(@Valid @RequestBody TopicCreateDTO topicCreateDTO) throws BusinessException {
+        log.trace("POST /topic - Criando uma pauta para votação");
 
-        Topic topic = service.create(topicCreateDTO);
+        TopicResponse topic = service.create(topicCreateDTO);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(topic.toDTO());
+        return ResponseEntity.status(HttpStatus.CREATED).body(topic);
     }
 }
