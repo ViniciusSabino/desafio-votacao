@@ -1,8 +1,8 @@
 package com.desafiovotacao.domain.enums;
 
 public enum SessionStatusEnum {
-	OPEN,
-	CLOSED,
-	SCHEDULED,
-	CANCELED,
+    OPEN,
+    CLOSED,
+    SCHEDULED,
+    CANCELED,
 }
