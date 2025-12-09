@@ -1,14 +1,15 @@
-package com.desafiovotacao.application.dto;
+package com.desafiovotacao.application.response;
 
-import com.desafiovotacao.domain.enums.TopicStatusEnum;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.Builder;
 
+import java.time.Instant;
+
 @Builder
-public record TopicDTO(
+public record TopicResponse(
         @Positive
         @NotNull
         @JsonProperty("id")
@@ -22,9 +23,6 @@ public record TopicDTO(
         @JsonProperty("description")
         String description,
 
-        @JsonProperty("status")
-        TopicStatusEnum status,
-
         @NotNull
         @NotEmpty
         @JsonProperty("createdBy")
@@ -33,11 +31,11 @@ public record TopicDTO(
         @NotNull
         @NotEmpty
         @JsonProperty("createdAt")
-        String createdAt,
+        Instant createdAt,
 
         @NotNull
         @NotEmpty
         @JsonProperty("updatedAt")
-        String updatedAt
+        Instant updatedAt
 ) {
 }
