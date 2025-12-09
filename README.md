@@ -1,117 +1,190 @@
-# Votação
+# 🗳️ Desafio Votação – API
 
-## Objetivo
+API REST desenvolvida em **Spring Boot 3 + Java 21**, responsável por gerenciar **pautas, sessões de votação, associados e votos**, seguindo boas práticas de arquitetura, validação, testes automatizados e documentação via Swagger.
 
-No cooperativismo, cada associado possui um voto e as decisões são tomadas em assembleias, por votação. Imagine que você deve criar uma solução para dispositivos móveis para gerenciar e participar dessas sessões de votação.
-Essa solução deve ser executada na nuvem e promover as seguintes funcionalidades através de uma API REST:
+---
 
-- Cadastrar uma nova pauta
-- Abrir uma sessão de votação em uma pauta (a sessão de votação deve ficar aberta por
-  um tempo determinado na chamada de abertura ou 1 minuto por default)
-- Receber votos dos associados em pautas (os votos são apenas 'Sim'/'Não'. Cada associado
-  é identificado por um id único e pode votar apenas uma vez por pauta)
-- Contabilizar os votos e dar o resultado da votação na pauta
+## 🚀 Tecnologias Utilizadas
 
-Para fins de exercício, a segurança das interfaces pode ser abstraída e qualquer chamada para as interfaces pode ser considerada como autorizada. A solução deve ser construída em java, usando Spring-boot, mas os frameworks e bibliotecas são de livre escolha (desde que não infrinja direitos de uso).
+- **Java 21**
+- **Spring Boot 3.4**
+- Spring Data JPA
+- Spring Validation
+- **H2 Database (file-based)**
+- **Swagger / OpenAPI (springdoc)**
+- Lombok
+- Logback + Logstash Encoder
+- Gradle
+- JUnit 5
+- Mockito
+- AssertJ
+- **JaCoCo (cobertura de testes)**
 
-É importante que as pautas e os votos sejam persistidos e que não sejam perdidos com o restart da aplicação.
+---
 
-O foco dessa avaliação é a comunicação entre o backend e o aplicativo mobile. Essa comunicação é feita através de mensagens no formato JSON, onde essas mensagens serão interpretadas pelo cliente para montar as telas onde o usuário vai interagir com o sistema. A aplicação cliente não faz parte da avaliação, apenas os componentes do servidor. O formato padrão dessas mensagens será detalhado no anexo 1.
+## 📦 Pré-requisitos
 
-## Como proceder
+Antes de executar a aplicação, você precisa ter instalado:
 
-Por favor, **CLONE** o repositório e implemente sua solução, ao final, notifique a conclusão e envie o link do seu repositório clonado no GitHub, para que possamos analisar o código implementado.
+- ✅ **Java JDK 21**
+- ✅ **Gradle** (ou usar o wrapper `./gradlew`)
+- ✅ Git (opcional, mas recomendado)
 
-Lembre de deixar todas as orientações necessárias para executar o seu código.
+---
 
-### Tarefas bônus
+## ▶️ Como Executar a Aplicação
 
-- Tarefa Bônus 1 - Integração com sistemas externos
-  - Criar uma Facade/Client Fake que retorna aleátoriamente se um CPF recebido é válido ou não.
-  - Caso o CPF seja inválido, a API retornará o HTTP Status 404 (Not found). Você pode usar geradores de CPF para gerar CPFs válidos
-  - Caso o CPF seja válido, a API retornará se o usuário pode (ABLE_TO_VOTE) ou não pode (UNABLE_TO_VOTE) executar a operação. Essa operação retorna resultados aleatórios, portanto um mesmo CPF pode funcionar em um teste e não funcionar no outro.
+### 1️⃣ Clonar o repositório
 
-```
-// CPF Ok para votar
-{
-    "status": "ABLE_TO_VOTE
-}
-// CPF Nao Ok para votar - retornar 404 no client tb
-{
-    "status": "UNABLE_TO_VOTE
-}
-```
-
-Exemplos de retorno do serviço
-
-### Tarefa Bônus 2 - Performance
-
-- Imagine que sua aplicação possa ser usada em cenários que existam centenas de
-  milhares de votos. Ela deve se comportar de maneira performática nesses
-  cenários
-- Testes de performance são uma boa maneira de garantir e observar como sua
-  aplicação se comporta
-
-### Tarefa Bônus 3 - Versionamento da API
-
-○ Como você versionaria a API da sua aplicação? Que estratégia usar?
-
-## O que será analisado
-
-- Simplicidade no design da solução (evitar over engineering)
-- Organização do código
-- Arquitetura do projeto
-- Boas práticas de programação (manutenibilidade, legibilidade etc)
-- Possíveis bugs
-- Tratamento de erros e exceções
-- Explicação breve do porquê das escolhas tomadas durante o desenvolvimento da solução
-- Uso de testes automatizados e ferramentas de qualidade
-- Limpeza do código
-- Documentação do código e da API
-- Logs da aplicação
-- Mensagens e organização dos commits
-
-## Dicas
-
-- Teste bem sua solução, evite bugs
-- Deixe o domínio das URLs de callback passiveis de alteração via configuração, para facilitar
-  o teste tanto no emulador, quanto em dispositivos fisicos.
-  Observações importantes
-- Não inicie o teste sem sanar todas as dúvidas
-- Iremos executar a aplicação para testá-la, cuide com qualquer dependência externa e
-  deixe claro caso haja instruções especiais para execução do mesmo
-  Classificação da informação: Uso Interno
-
-## Anexo 1
-
-### Introdução
-
-A seguir serão detalhados os tipos de tela que o cliente mobile suporta, assim como os tipos de campos disponíveis para a interação do usuário.
-
-### Tipo de tela – FORMULARIO
-
-A tela do tipo FORMULARIO exibe uma coleção de campos (itens) e possui um ou dois botões de ação na parte inferior.
-
-O aplicativo envia uma requisição POST para a url informada e com o body definido pelo objeto dentro de cada botão quando o mesmo é acionado. Nos casos onde temos campos de entrada
-de dados na tela, os valores informados pelo usuário são adicionados ao corpo da requisição. Abaixo o exemplo da requisição que o aplicativo vai fazer quando o botão “Ação 1” for acionado:
-
-```
-POST http://seudominio.com/ACAO1
-{
-    “campo1”: “valor1”,
-    “campo2”: 123,
-    “idCampoTexto”: “Texto”,
-    “idCampoNumerico: 999
-    “idCampoData”: “01/01/2000”
-}
+```bash
+git clone <URL_DO_REPOSITORIO>
+cd desafio-votacao
 ```
 
-Obs: o formato da url acima é meramente ilustrativo e não define qualquer padrão de formato.
+---
 
-### Tipo de tela – SELECAO
+### 2️⃣ Build do projeto
 
-A tela do tipo SELECAO exibe uma lista de opções para que o usuário.
+```bash
+./gradlew clean build
+```
 
-O aplicativo envia uma requisição POST para a url informada e com o body definido pelo objeto dentro de cada item da lista de seleção, quando o mesmo é acionado, semelhando ao funcionamento dos botões da tela FORMULARIO.
+> Esse comando irá:
+> - Compilar o projeto
+> - Executar os testes
+> - Gerar relatório de cobertura (JaCoCo)
 
-# desafio-votacao
+---
+
+### 3️⃣ Executar a aplicação
+
+```bash
+./gradlew bootRun
+```
+
+✅ A aplicação iniciará em:
+
+```text
+http://localhost:8080
+```
+
+---
+
+## 📄 Documentação da API (Swagger)
+
+A API é totalmente documentada via **Swagger UI**:
+
+```text
+http://localhost:8080/swagger-ui/index.html#/
+```
+
+No Swagger é possível:
+- Visualizar todos os endpoints
+- Conferir modelos de request e response
+- Executar chamadas diretamente pelo navegador
+
+---
+
+## 🗄️ Banco de Dados (H2)
+
+O projeto utiliza **H2 file-based**, permitindo persistência dos dados localmente.
+
+### 📍 Configuração
+
+```yaml
+spring:
+  datasource:
+    url: jdbc:h2:file:./src/main/resources/voting-db
+```
+
+---
+
+### 🧪 Console do H2
+
+O console do banco pode ser acessado em:
+
+```text
+http://localhost:8080/h2-console
+```
+
+Configuração para login:
+
+| Campo       | Valor                                         |
+|------------|-----------------------------------------------|
+| JDBC URL   | `jdbc:h2:file:./src/main/resources/voting-db` |
+| User       | `sa`                                          |
+| Password   | *(vazio)*                                     |
+
+---
+
+## ⚙️ Configurações Importantes
+
+### application.yml
+
+- Perfil ativo: **dev**
+- Porta padrão: **8080**
+- Fuso horário global: **UTC**
+- `ddl-auto`: `update`
+- Logs detalhados habilitados para o pacote da aplicação
+
+---
+
+## ✅ Testes e Cobertura (JaCoCo)
+
+### Executar testes
+
+```bash
+./gradlew test
+```
+
+### Relatório de cobertura
+
+Após a execução dos testes, o relatório HTML estará disponível em:
+
+```text
+build/reports/jacoco/test/html/index.html
+```
+
+📌 Classes ignoradas na cobertura de testes:
+- `config`
+- `dto`
+- `exception`
+- `*Application`
+
+---
+
+## 🧠 Padrões e Boas Práticas
+
+- Arquitetura em camadas bem definida
+- Separação clara entre Controller, Service e Repository
+- Uso de DTOs para entrada e saída de dados
+- Validações com **Bean Validation**
+- Datas e horários tratados em **UTC**
+- Organização de código focada em domínio
+- Código testável e de fácil manutenção
+
+---
+
+## 🔗 Links Importantes
+
+- Swagger UI  
+  👉 http://localhost:8080/swagger-ui/index.html#/
+
+- H2 Console  
+  👉 http://localhost:8080/h2-console
+
+- Relatório JaCoCo  
+  👉 `build/reports/jacoco/test/html/index.html`
+
+---
+
+## 🏁 Considerações Finais
+
+Este projeto foi desenvolvido com foco em:
+
+- ✅ Clareza de domínio
+- ✅ Código limpo e bem organizado
+- ✅ Testes automatizados
+- ✅ Facilidade de execução e avaliação
+
+O código foi pensado para evoluir e escalar de forma sustentável 🚀
